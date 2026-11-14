@@ -30,3 +30,12 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t autoops:latest .
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          image-ref: autoops:latest
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
