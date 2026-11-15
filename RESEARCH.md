@@ -1,69 +1,114 @@
 
-# Research and Technical Decisions – AutoOps
+# Research Notes
 
-## 1. Project Overview
+## Introduction
 
-AutoOps was developed to demonstrate how DevOps practices can improve application reliability, automate testing, and identify security vulnerabilities before deployment.
+While building AutoOps, I researched the tools and technologies needed to create an application monitoring dashboard. I wanted to understand how the different parts work together, rather than just get the application running.
 
-The project focuses on application testing, Docker containerisation, continuous integration, and container security scanning.
+I am a Frontend Engineer, so I was already familiar with building user interfaces and working with frontend technologies. I used that experience to build the React dashboard for AutoOps, while using the project as an opportunity to develop my knowledge of backend development, APIs, Docker, CI/CD and security scanning.
 
-## 2. Technology Research
+This document records what I researched, what I learned and some of the challenges I worked through.
 
-### FastAPI
+## 1. Frontend Development with React
 
-I chose FastAPI to build a simple Python API because it is lightweight, easy to understand, and provides automatic interactive API documentation.
+As a Frontend Engineer, I was able to use my existing experience with React, TypeScript, HTML and CSS to build the AutoOps dashboard.
 
-I used it to create a home endpoint and a health-check endpoint.
+I developed the interface to display the application's health status, uptime and recent health checks. I also added a manual refresh option and automatic refresh every 10 seconds.
 
-### pytest
+Although I was comfortable building the interface, I wanted to understand how it would communicate with a backend service.
 
-I researched automated testing and used pytest to verify that the API endpoints return the expected responses.
+This led me to research API requests, frontend and backend communication, and how to handle responses when an API is available or unavailable.
 
-This helps identify problems before changes are integrated into the project.
+## 2. FastAPI and API Development
 
-### Docker
+I researched how to use FastAPI to create a backend that provides information about an application's health.
 
-I used Docker to package the application and its dependencies into a container.
+I learned how to:
+- Create API endpoints.
+- Return data in JSON format.
+- Use the `/docs` page to view and try out API endpoints.
+- Add a health endpoint that reports the application's status and uptime.
 
-Containerisation makes the application easier to run consistently across different environments.
+One important thing I learned is that a health endpoint should report only what the application actually checks. In this project, the endpoint reports whether the API is responding and how long it has been running. It does not currently check the server's CPU, memory or disk usage.
 
-### GitHub Actions
+## 3. Frontend and Backend Communication
 
-I used GitHub Actions to automate the project's continuous integration process.
+I researched how a frontend application communicates with a backend API.
 
-The workflow runs automated tests and builds the Docker image whenever changes are pushed to the main branch or a pull request targets main.
+I connected the React dashboard to the FastAPI health endpoint. During development, I used Vite's proxy configuration so frontend requests could be forwarded to the backend.
 
-### Trivy
+I also added an Nginx configuration for serving the built frontend and forwarding API requests to the backend when running in containers.
 
-I researched container security scanning and selected Trivy to identify vulnerabilities in the Docker image.
+This helped me understand the difference between development configuration and how a built frontend can be served.
 
-During development, Trivy identified two HIGH vulnerabilities associated with the Debian operating-system package zlib1g.
+## 4. Automated Testing with pytest
 
-I investigated the findings and updated the Dockerfile to install available operating-system package updates before building the application image.
+I researched how to test API endpoints using pytest.
 
-After rebuilding and pushing the updated image, the Trivy scan passed.
+I learned that automated tests help check whether an application behaves as expected and can catch problems when code changes.
 
-## 3. Problem-Solving and Lessons Learned
+I added tests to check that the main endpoints respond successfully and return the expected information. I ran the tests locally and confirmed that both tests passed.
 
-One important challenge was addressing the vulnerabilities reported by Trivy.
+## 5. Docker and Containerisation
 
-Rather than disabling the security scan, I investigated the affected package, updated the Docker build process, and ran the pipeline again.
+I researched how Docker packages an application and its dependencies so it can run in a more consistent environment.
 
-This helped me understand the importance of maintaining secure container images and using automated security checks.
+I created a Dockerfile for the FastAPI backend and another for the frontend. I also added a Docker Compose configuration to describe how the frontend and backend should run together.
 
-## 4. Key Learnings
+This helped me understand the purpose of container images, Dockerfiles, ports and how services communicate.
 
-Through this project, I gained practical experience in:
+I was not able to verify the Docker Compose setup on my local machine because the `docker compose` command was unavailable. I have included the configuration, but I would want to test it in an environment with Docker Compose installed.
 
-- Developing and testing a Python API.
-- Building Docker images and running containers.
-- Automating workflows using GitHub Actions.
-- Scanning container images for vulnerabilities.
-- Investigating and resolving security findings.
-- Managing source code using Git and GitHub.
+## 6. GitHub Actions and Continuous Integration
 
-## 5. Conclusion
+I researched GitHub Actions and how it can automate checks when code is pushed to a GitHub repository.
 
-AutoOps helped me understand how application development, testing, containerisation, automation, and security scanning work together in a DevOps workflow.
+I created a workflow to run automated tests and build the application image. This means that important checks can run automatically rather than relying only on manual testing.
 
-It also strengthened my problem-solving skills and my understanding of continuous integration.
+I learned how workflow files use jobs and steps to define the tasks that GitHub should perform.
+
+## 7. Security Scanning with Trivy
+
+I researched Trivy as a tool for scanning container images for known security vulnerabilities.
+
+During the project, the scan identified two HIGH-severity vulnerabilities associated with the `zlib1g` package.
+
+Instead of ignoring the warnings or disabling the scan, I investigated the reported issues and worked on updating the Docker build process to address them.
+
+This taught me that a successful build does not automatically mean an application is free from security issues. Security checks are an important part of the development process.
+
+## 8. What I Learned
+
+The main things I learned from this project were:
+
+- How to bring my frontend development experience into a project involving backend and DevOps technologies.
+- How a frontend and backend communicate through an API.
+- How to create and test API endpoints.
+- How Dockerfiles and container images are used.
+- How GitHub Actions can automate development checks.
+- Why security scanning matters and how to investigate vulnerabilities.
+- How to research errors and work through problems instead of simply ignoring them.
+
+## 9. Further Improvements
+
+If I continued developing AutoOps, I would like to:
+
+- Add actual CPU, memory and disk monitoring.
+- Improve the dashboard with more monitoring information.
+- Test the Docker Compose setup in a working Docker environment.
+- Add more automated tests.
+- Explore deploying the application to a cloud platform.
+
+## Research Resources
+
+The following official documentation pages were useful references for the technologies used in this project:
+
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [pytest Documentation](https://docs.pytest.org/)
+- [Docker Documentation](https://docs.docker.com/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Trivy Documentation](https://trivy.dev/)
+- [Vite Documentation](https://vite.dev/)
+- [React Documentation](https://react.dev/)
+
+These resources helped me understand the tools and concepts involved in building the project.
