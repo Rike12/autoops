@@ -7,6 +7,17 @@ AutoOps is a small DevOps project demonstrating how an application can be tested
 
 The project focuses on improving application reliability through automated testing, Docker containerisation, continuous integration, and container security scanning.
 
+## 2. About Me
+
+I am a Frontend Engineer with experience building web applications
+and user interfaces. I have also completed a six-month DevOps
+bootcamp and am currently gaining practical experience through
+my DevOps internship at Amdari.
+
+I built AutoOps to combine my frontend development experience
+with the DevOps skills I have been developing, particularly in
+automation, containerisation, testing and security.
+
 ## 2. Project Features
 
 - Python FastAPI application.
