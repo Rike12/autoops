@@ -1,33 +1,30 @@
 
-# AI Usage Declaration – AutoOps
+# AI Usage Notes
 
-## 1. AI Tool Used
+I used ChatGPT during the development of AutoOps to help me understand new concepts, solve problems and improve my documentation.
 
-ChatGPT was used as an AI support tool during the development of this project.
+As a Frontend Engineer, I used my existing experience to build the React dashboard. I also used AI to help me learn more about the backend, Docker, GitHub Actions and other DevOps tools.
 
-## 2. How AI Was Used
+## How I Used AI
 
-AI assistance was used to:
+I used ChatGPT to help me with:
 
-- Understand technical concepts related to FastAPI, Docker, and DevOps.
-- Explain code and configuration files.
-- Provide guidance when creating automated tests.
-- Assist with understanding GitHub Actions workflows.
-- Investigate and troubleshoot Trivy security scan findings.
-- Improve project documentation.
+- Understanding FastAPI and how the frontend connects to the backend.
+- Understanding Docker and Docker Compose.
+- Learning how GitHub Actions works.
+- Understanding security issues reported by Trivy.
+- Fixing errors and improving my documentation.
 
-## 3. My Contribution
+## Checking AI Suggestions
 
-I created and worked through the project step by step, ran commands in my development environment, tested the application, built Docker images, and verified the CI pipeline.
+I did not assume that every AI suggestion was correct. When something did not work as expected, I asked follow-up questions, reviewed the configuration and made changes based on how my application actually behaved.
 
-I reviewed the suggested code and configurations, ran tests, investigated errors, and checked that changes worked before including them in the project.
+I checked my work by running the backend, testing the API, running pytest and building the frontend with `npm run build`.
 
-## 4. Verification
+I could not test Docker Compose locally because the `docker compose` command was unavailable, so I have been clear about that.
 
-AI-generated suggestions were treated as guidance rather than automatically accepted solutions.
+## What I Learned
 
-I tested the application, checked the automated test results, verified Docker builds, and confirmed that the GitHub Actions pipeline and Trivy security scan passed.
+AI helped me learn unfamiliar tools and find solutions, but I also learned the importance of understanding the code rather than simply copying suggestions.
 
-## 5. Conclusion
-
-AI supported my learning and problem-solving throughout this project. I remain responsible for understanding the implementation and explaining the technical decisions made in AutoOps.
+I used AI as a learning tool while taking responsibility for the decisions, changes and testing in my project.
