@@ -1,11 +1,12 @@
 
-# AutoOps – Automated Application Deployment and Health Monitoring
+# AutoOps – Application Monitoring Dashboard
 
-## 1. Overview
+## About AutoOps
 
-AutoOps is a small DevOps project demonstrating how an application can be tested, containerised, and security-scanned using automation.
+I built AutoOps as part of my EAS Trainee/Junior DevOps Engineer technical challenge.
 
-The project focuses on improving application reliability through automated testing, Docker containerisation, continuous integration, and container security scanning.
+I wanted to create something practical that would help me understand how application monitoring works and how different parts of an application communicate with each other.
+
 
 ## 2. About Me
 
@@ -20,108 +21,212 @@ automation, containerisation, testing and security.
 
 ## 2. Project Features
 
-- Python FastAPI application.
-- Home endpoint providing application information.
-- Health endpoint reporting application status and uptime.
-- Automated tests using pytest.
-- Docker containerisation.
-- GitHub Actions CI pipeline.
-- Automated container vulnerability scanning using Trivy.
-- Debian package security updates during Docker image builds.
+AutoOps is a simple monitoring dashboard that allows me to check whether an application is running properly. It has a Python backend that provides the application's health information and a React dashboard that displays the results.
+>>>>>>> 5fd1f26 (Update project documentation)
 
-## 3. Technology Stack
+Instead of checking the backend manually every time, I can open the dashboard and see the current application status in one place.
 
-| Technology | Purpose |
+This project also gave me an opportunity to practise working with Docker, automated testing, GitHub Actions and security scanning.
+
+## What AutoOps Does
+
+The dashboard currently allows me to:
+
+- See whether the application is healthy or unavailable.
+- Check how long the backend has been running.
+- Automatically refresh the health status every 10 seconds.
+- Run a health check manually when needed.
+- View recent health-check activity.
+- Access the backend API and its documentation.
+
+I also included automated tests and a workflow that checks the project and scans the container image for known security vulnerabilities.
+
+## Tools and Technologies
+
+These are the main tools I used:
+
+| Tool | How I used it |
 |---|---|
-| Python 3.12 | Application development |
-| FastAPI | API framework |
-| pytest | Automated testing |
-| Docker | Application containerisation |
-| GitHub Actions | Continuous integration |
-| Trivy | Container security scanning |
-| Git and GitHub | Version control and source hosting |
+| Python | Built the backend |
+| FastAPI | Created the API and health-check endpoint |
+| React | Built the dashboard |
+| TypeScript | Used to develop the frontend |
+| Vite | Ran and built the frontend |
+| Pytest | Tested the backend |
+| Docker | Packaged the application |
+| Docker Compose | Defined the frontend and backend services |
+| GitHub Actions | Automated project checks |
+| Trivy | Checked the container image for vulnerabilities |
+| Git and GitHub | Managed and shared the project |
 
-## 4. Run Locally
+## Getting Started
 
-Install dependencies:
+If you would like to try AutoOps on your own computer, follow the steps below.
+
+### Requirements
+
+You will need:
+
+- Python 3.12 or later
+- Node.js and npm
+- Git
+
+### 1. Download the project
+
+Open your terminal and run:
 
 ```bash
-python -m pip install -r requirements.txt
+git clone https://github.com/Rike12/autoops.git
+cd autoops
 ```
 
-Start the application:
+### 2. Set up the backend
+
+Create a virtual environment:
 
 ```bash
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8001
+python3 -m venv .venv
 ```
 
-Open the API documentation:
-
-http://127.0.0.1:8001/docs
-
-## 5. Run Automated Tests
+Activate it:
 
 ```bash
-python -m pytest -v
+source .venv/bin/activate
 ```
 
-## 6. API Endpoints
+Install the required packages:
 
-| Endpoint | Description |
+```bash
+pip install -r requirements.txt
+```
+
+Start the backend:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+The backend will be available at:
+
+http://localhost:8000
+
+### 3. Start the dashboard
+
+Open a second terminal and go into the frontend folder:
+
+```bash
+cd autoops/frontend
+```
+
+Install the frontend packages:
+
+```bash
+npm install
+```
+
+Start the dashboard:
+
+```bash
+npm run dev
+```
+
+Open the following address in your browser:
+
+http://localhost:5173
+
+You should now be able to use the AutoOps dashboard.
+
+## Checking the Application
+
+The backend has three main endpoints:
+
+| Endpoint | Purpose |
 |---|---|
-| `/` | Returns application information |
-| `/health` | Returns health status and uptime |
-| `/docs` | Interactive API documentation |
+| `/` | Main application endpoint |
+| `/health` | Shows the health status and uptime |
+| `/docs` | Allows you to explore and test the API |
 
-## 7. Docker
+For example, visiting:
 
-Build the Docker image:
+http://localhost:8000/health
+
+returns the current health status and the time the application has been running since startup.
+
+## Running the Tests
+
+I used Pytest to check that the backend endpoints work as expected.
+
+To run the tests, activate the virtual environment and enter:
 
 ```bash
-docker build -t autoops:latest .
+python -m pytest
 ```
 
-Run the container:
+The two tests in the current test suite passed during my final checks.
+
+## Running with Docker
+
+I also included Docker configuration to make it possible to run the frontend and backend together.
+
+If Docker and the Docker Compose plugin are installed, run:
 
 ```bash
-docker run -d --name autoops-api -p 8001:8000 autoops:latest
+docker compose up --build
 ```
 
-Access the application:
+The services are configured to use these addresses:
 
-http://localhost:8001
+- Dashboard: http://localhost:8080
+- Backend: http://localhost:8001
+- API documentation: http://localhost:8001/docs
 
-## 8. Continuous Integration and Security
+To stop the services:
 
-GitHub Actions automatically runs the following steps when code is pushed to the main branch or a pull request targets main:
+```bash
+docker compose down
+```
 
-1. Checks out the repository.
-2. Sets up Python.
-3. Installs project dependencies.
-4. Runs automated tests.
-5. Builds the Docker image.
-6. Scans the Docker image using Trivy for HIGH and CRITICAL vulnerabilities.
+## Automated Checks and Security
 
-The pipeline helps identify application test failures and container security issues early.
+I added a GitHub Actions workflow to automate some of the checks carried out during development.
 
-## 9. What I Learned
+It runs the backend tests, builds the application image and uses Trivy to look for known security vulnerabilities.
 
-Through this project, I gained practical experience in:
+During development, Trivy reported vulnerabilities in the container image. I investigated the findings and updated the Docker build process rather than simply ignoring the warnings.
 
-- Building and testing a Python API.
-- Writing a Dockerfile and building container images.
-- Automating tests and image builds with GitHub Actions.
-- Scanning container images for security vulnerabilities.
-- Investigating and fixing an operating-system package vulnerability.
-- Using Git and GitHub to manage project changes.
+This was a useful part of the project because it helped me understand why checking the security of application images matters.
 
-## 10. Future Improvements
+## What I Learned
 
-- Kubernetes deployment.
-- Application monitoring with Prometheus and Grafana.
-- Infrastructure provisioning with Terraform.
+Building AutoOps helped me gain practical experience in several areas.
 
-## 11. Author
+I learned more about connecting a frontend to a backend, creating API endpoints, writing tests and using Docker to package an application.
 
-Created as a practical DevOps technical challenge project.
+I also gained experience setting up GitHub Actions and investigating security issues reported by Trivy.
+
+There were challenges along the way, particularly when connecting the dashboard to the backend and dealing with issues found during development. Working through them helped me understand the project better.
+
+I have documented my research, the approaches I explored and what I learned in [RESEARCH.md](RESEARCH.md).
+
+I have also explained how I used AI during development, including how I checked and tested the suggestions, in [AI.md](AI.md).
+
+## What I Would Like to Improve
+
+There are still several things I would like to add as I continue learning:
+
+- Keep a history of previous health checks.
+- Display uptime and response-time trends.
+- Add notifications when an application becomes unavailable.
+- Monitor CPU and memory usage.
+- Explore deploying the application to a cloud platform.
+
+These are ideas for future improvements and are not features currently available in AutoOps.
+
+## Author
+
+**Mutiat Adepoju**
+
+Built as part of the EAS Trainee/Junior DevOps Engineer technical challenge.
+
+GitHub: https://github.com/Rike12
 
