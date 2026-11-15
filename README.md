@@ -22,7 +22,6 @@ automation, containerisation, testing and security.
 ## 2. Project Features
 
 AutoOps is a simple monitoring dashboard that allows me to check whether an application is running properly. It has a Python backend that provides the application's health information and a React dashboard that displays the results.
->>>>>>> 5fd1f26 (Update project documentation)
 
 Instead of checking the backend manually every time, I can open the dashboard and see the current application status in one place.
 
